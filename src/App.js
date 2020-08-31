@@ -30,6 +30,7 @@ class App extends React.Component {
   updateList = (value) => {
     //huh, this needs to be an arrow function, otherwise 'this' = updateList?
     //why doesn't this happen for my other functions?
+    //I think it's because I'm using it as a callback for another function in another component
     console.log(this);
     this.setState({
       todoList: [...this.state.todoList,
@@ -37,7 +38,7 @@ class App extends React.Component {
          id: Date.now(),
          completed: false,
         }
-      ]
+      ],
     })
   }
   toggleCompleted = updatedElem => {
@@ -59,10 +60,11 @@ class App extends React.Component {
         })
     })
   }
-  save(e) {
+  save = (e) => {
     e.preventDefault();
     localStorage.setItem('todoList', JSON.stringify(this.state.todoList));
   }
+
   render() {
     return (
       <div>
@@ -72,8 +74,8 @@ class App extends React.Component {
         />
         <TodoForm updateList={this.updateList}
                   clearCompleted={this.clearCompleted}
+                  save={this.save}
         /> 
-        <button onClick={(e) => this.save(e)}>Save</button>
       </div>
     );
   }
