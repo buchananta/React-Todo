@@ -21,7 +21,7 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      todoList: testData,
+      todoList: JSON.parse(localStorage.getItem('todoList')) || testData,
     }
   }
   // you will need a place to store your state in this component.
@@ -59,6 +59,10 @@ class App extends React.Component {
         })
     })
   }
+  save(e) {
+    e.preventDefault();
+    localStorage.setItem('todoList', JSON.stringify(this.state.todoList));
+  }
   render() {
     return (
       <div>
@@ -69,6 +73,7 @@ class App extends React.Component {
         <TodoForm updateList={this.updateList}
                   clearCompleted={this.clearCompleted}
         /> 
+        <button onClick={(e) => this.save(e)}>Save</button>
       </div>
     );
   }
